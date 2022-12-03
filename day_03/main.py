@@ -5,10 +5,6 @@ letters = {c: i for i, c in enumerate(string.ascii_letters, start=1)}
 with open('input.txt', 'r') as f:
     data = f.read().strip()
 
-# data = """vJrwpWtwJgWrhcsFMMfFFhFp
-# jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
-# PmmdzqPrVvPwwTWBwg"""
-
 data = data.split('\n')
 
 # part 1
@@ -31,8 +27,3 @@ for items in data:
         group = []
 
 print(sum_badge_priorities)
-
-
-
-
-
