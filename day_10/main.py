@@ -48,4 +48,5 @@ print(f'{sum(signal_strengths) = }')
 
 # part 2
 for i in range(40, 241, 40):
+    '''Eigentlich pixels[i-40: i], doch für doppelte Zeichen:'''
     print(''.join([p*2 for p in pixels[i-40: i]]))
