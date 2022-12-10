@@ -26,17 +26,17 @@ for line in data:
         if ((cycle - 1) % 40) in (value_x-1, value_x, value_x+1):
             pixels += '#'
         else:
-            pixels += '.'
+            pixels += ' '
 
     else:
         v = int(line.split()[1])
         for _ in range(2):
             cycle += 1
 
-            if ((cycle - 1) % 40) in (value_x-1, value_x, value_x+1):
+            if abs(((cycle - 1) % 40) - value_x) <= 1:
                 pixels += '#'
             else:
-                pixels += '.'
+                pixels += ' '
 
     if cycle >= actual_ctw:
         signal_strengths.append(actual_ctw * value_x)
@@ -48,4 +48,4 @@ print(f'{sum(signal_strengths) = }')
 
 # part 2
 for i in range(40, 241, 40):
-    print(pixels[i-40: i])
+    print(''.join([p*2 for p in pixels[i-40: i]]))
