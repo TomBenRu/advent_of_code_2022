@@ -49,5 +49,3 @@ print(f'{sum(signal_strengths) = }')
 # part 2
 for i in range(40, 241, 40):
     print(pixels[i-40: i])
-
-
