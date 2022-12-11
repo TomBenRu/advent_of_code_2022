@@ -21,7 +21,7 @@ class Monkey:
 
     def throw(self):
         self.brake_down_worry_levels()
-        for item in self.starting_items[::-1]:
+        for item in self.starting_items:
             self.inspected += 1
             worry_level = eval(self.operation, {}, {'old': item}) // self.worry_level_div
             if not worry_level % self.test_div:
