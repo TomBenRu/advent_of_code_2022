@@ -1,4 +1,4 @@
-from functools import reduce
+import math
 
 
 class Monkey:
@@ -16,7 +16,7 @@ class Monkey:
         new_worry_levels = []
         test_divisors = [m.test_div for m in monkeys]
         for wl in self.starting_items:
-            new_worry_levels.append(wl % reduce((lambda x, y: x * y), test_divisors))
+            new_worry_levels.append(wl % math.prod(test_divisors))
         self.starting_items = new_worry_levels
 
     def throw(self):
