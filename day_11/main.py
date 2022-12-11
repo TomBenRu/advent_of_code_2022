@@ -1,6 +1,4 @@
-import sys
 from functools import reduce
-from typing import Callable
 
 
 class Monkey:
@@ -22,6 +20,7 @@ class Monkey:
         self.starting_items = new_worry_levels
 
     def throw(self):
+        self.brake_down_worry_levels()
         for item in self.starting_items[::-1]:
             self.inspected += 1
             worry_level = eval(self.operation, {}, {'old': item}) // self.worry_level_div
@@ -73,7 +72,6 @@ for m_data in monkey_datas:
 
 for _ in range(10_000):
     for m in monkeys:
-        m.brake_down_worry_levels()
         m.throw()
 
 most_active = sorted(m.inspected for m in monkeys)[-2:]
