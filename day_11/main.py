@@ -11,19 +11,12 @@ class Monkey:
         self.monkey_true = monkey_true
         self.monkey_false = monkey_false
         self.inspected = 0
-
-    def brake_down_worry_levels(self):
-        new_worry_levels = []
-        test_divisors = [m.test_div for m in monkeys]
-        for wl in self.starting_items:
-            new_worry_levels.append(wl % math.prod(test_divisors))
-        self.starting_items = new_worry_levels
+        self.modulo_number = None
 
     def throw(self):
-        self.brake_down_worry_levels()
         for item in self.starting_items:
             self.inspected += 1
-            worry_level = eval(self.operation, {}, {'old': item}) // self.worry_level_div
+            worry_level = (eval(self.operation, {}, {'old': item}) // self.worry_level_div) % self.modulo_number
             if not worry_level % self.test_div:
                 monkeys[self.monkey_true].starting_items.append(worry_level)
             else:
@@ -48,7 +41,9 @@ for m_data in monkey_datas:
                     monkey_true=int(m_data['If true'].split()[-1]),
                     monkey_false=int(m_data['If false'].split()[-1]))
     monkeys.append(monkey)
-
+modulo_number = math.prod([m.test_div for m in monkeys])
+for m in monkeys:
+    m.modulo_number = modulo_number
 
 for _ in range(20):
     for m in monkeys:
@@ -69,6 +64,10 @@ for m_data in monkey_datas:
                     monkey_true=int(m_data['If true'].split()[-1]),
                     monkey_false=int(m_data['If false'].split()[-1]))
     monkeys.append(monkey)
+
+modulo_number = math.prod([m.test_div for m in monkeys])
+for m in monkeys:
+    m.modulo_number = modulo_number
 
 for _ in range(10_000):
     for m in monkeys:
