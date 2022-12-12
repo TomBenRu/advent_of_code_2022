@@ -1,10 +1,8 @@
 import string
-import pprint
 import sys
 from copy import deepcopy
 
 sys.setrecursionlimit(10000)
-
 
 
 char2int = {c: i for i, c in enumerate(string.ascii_lowercase)}
@@ -41,7 +39,8 @@ def parse_data(file: str = 'test_input.txt') -> tuple[list[list[int]], tuple[int
 
 
 class Location:
-    def __init__(self, loc: tuple[int, int], distance_from_start: float, level: int, neigbours: set[tuple[int, int]] = None):
+    def __init__(self, loc: tuple[int, int], distance_from_start: float, level: int,
+                 neigbours: set[tuple[int, int]] = None):
         self.loc = loc
         self.level = level
         self.distance_from_start: float = distance_from_start
@@ -55,9 +54,9 @@ class Location:
 
 
 def neighbours_coords(location: tuple[int, int]) -> list[tuple[int, int]]:
-    return [l for l in [(location[0], location[1] - 1), (location[0], location[1] + 1),
+    return [coordinate for coordinate in [(location[0], location[1] - 1), (location[0], location[1] + 1),
             (location[0] - 1, location[1]), (location[0] + 1, location[1])]
-            if area[l[0]][l[1]] - area[location[0]][location[1]] <= 1]
+            if area[coordinate[0]][coordinate[1]] - area[location[0]][location[1]] <= 1]
 
 
 def solve(curr_coord: tuple[int, int]) -> list[tuple[int, int]] | None:
@@ -92,8 +91,8 @@ def solve(curr_coord: tuple[int, int]) -> list[tuple[int, int]] | None:
 if __name__ == '__main__':
     area, start, goal = parse_data(file='input.txt')
     all_locations_base: dict[tuple, Location] = {(i_row, i_col): Location((i_row, i_col), float('inf'), col)
-                                            for i_row, row in enumerate(area)
-                                            for i_col, col in enumerate(row) if col != 99}
+                                                 for i_row, row in enumerate(area)
+                                                 for i_col, col in enumerate(row) if col != 99}
     for coord, loc in all_locations_base.items():
         neigbours = neighbours_coords(coord)
         loc.neighbours = neigbours
@@ -121,9 +120,3 @@ if __name__ == '__main__':
             if len(res) < shortest_path:
                 shortest_path = len(res)
     print(f'part2: {shortest_path = }')
-
-
-
-
-
-
