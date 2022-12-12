@@ -97,11 +97,13 @@ if __name__ == '__main__':
     for coord, loc in all_locations_base.items():
         neigbours = neighbours_coords(coord)
         loc.neighbours = neigbours
+
+    # part 1
     all_locations = deepcopy(all_locations_base)
     all_locations[start].distance_from_start = 0
 
     res = solve(curr_coord=start)[::-1]
-    print(f'{len(res) = }, {res = }')
+    print(f'part1: {len(res) = }, {res = }')
 
     # part 2
     print('---------------------------------------------------------------------------------------------------')
