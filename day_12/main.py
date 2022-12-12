@@ -1,7 +1,11 @@
 import string
 import pprint
-from collections import deque
-from typing import Self
+import sys
+from copy import deepcopy
+
+sys.setrecursionlimit(10000)
+
+
 
 char2int = {c: i for i, c in enumerate(string.ascii_lowercase)}
 
@@ -32,7 +36,6 @@ def parse_data(file: str = 'test_input.txt') -> tuple[list[list[int]], tuple[int
     area.append([99] * len(area[0]))
 
     print(f'{start = }, {goal = }')
-    pprint.pprint(area)
 
     return area, start, goal
 
@@ -58,55 +61,67 @@ def neighbours_coords(location: tuple[int, int]) -> list[tuple[int, int]]:
 
 
 def solve(curr_coord: tuple[int, int]) -> list[tuple[int, int]] | None:
-    print(f'{curr_coord = }')
     dist_neighbours = all_locations[curr_coord].distance_from_start + 1
     if not all_locations[curr_coord].neighbours:
         return
-    num_turns = len(all_locations[curr_coord].neighbours)
     result = None
     len_result = float('inf')
     for n in all_locations[curr_coord].neighbours:
-        print(f'{n = }')
         if n == goal:
             if all_locations[goal].distance_from_start <= dist_neighbours:
-                num_turns -= 1
                 continue
             else:
                 all_locations[goal].distance_from_start = dist_neighbours
                 return [n]
         elif all_locations[n].distance_from_start <= dist_neighbours:
-            num_turns -= 1
             continue
         else:
             all_locations[n].distance_from_start = dist_neighbours
             next_loc = solve(n)
             # print(f'{next_loc = }')
             if not next_loc:
-                num_turns -= 1
                 continue
             elif (len_loc := len(next_loc)) < len_result:
                 result = next_loc
-                print(f'{result = }')
                 len_result = len_loc
-                num_turns -= 1
             else:
-                num_turns -= 1
                 continue
-    while num_turns:
-        print(f'in der Schleife {curr_coord}')
-        pass
     return result + [curr_coord] if result else None
 
 
 if __name__ == '__main__':
-    area, start, goal = parse_data()
-    all_locations: dict[tuple, Location] = {(i_row, i_col): Location((i_row, i_col), float('inf'), col)
+    area, start, goal = parse_data(file='input.txt')
+    all_locations_base: dict[tuple, Location] = {(i_row, i_col): Location((i_row, i_col), float('inf'), col)
                                             for i_row, row in enumerate(area)
                                             for i_col, col in enumerate(row) if col != 99}
-    for coord, loc in all_locations.items():
+    for coord, loc in all_locations_base.items():
         neigbours = neighbours_coords(coord)
         loc.neighbours = neigbours
+    all_locations = deepcopy(all_locations_base)
     all_locations[start].distance_from_start = 0
 
     res = solve(curr_coord=start)[::-1]
-    print(f'{res = }, {len(res) = }')
+    print(f'{len(res) = }, {res = }')
+
+    # part 2
+    print('---------------------------------------------------------------------------------------------------')
+    shortest_path = float('inf')
+
+    for c, loc in all_locations_base.items():
+        if loc.level == 0:
+            all_locations = deepcopy(all_locations_base)
+            start = c
+            all_locations[start].distance_from_start = 0
+            if not (res := solve(curr_coord=start)):
+                continue
+            res = res[::-1]
+            print(f'{len(res) = }, {res = }')
+            if len(res) < shortest_path:
+                shortest_path = len(res)
+    print(f'part2: {shortest_path = }')
+
+
+
+
+
+
