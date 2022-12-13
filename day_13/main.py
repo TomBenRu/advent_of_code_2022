@@ -8,7 +8,8 @@ with open('input.txt', 'r') as f:
 
 
 def str2list(part: str):
-    result = []
+    return eval(part)
+    """result = []
     parentesis_index = 0
     two_digits = False
     for i, c in enumerate(part):
@@ -31,7 +32,7 @@ def str2list(part: str):
             for _ in range(parentesis_index):
                 goal = goal[-1]
             goal.append(int(c))
-    return result[0]
+    return result[0]"""
 
 
 def proof_recursiv(l_val, r_val):
