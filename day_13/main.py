@@ -72,7 +72,6 @@ def proof_recursiv(l_val, r_val):
         if result in (True, False):
             return result
         else:
-            """goto next item"""
             return 'next'
 
 
