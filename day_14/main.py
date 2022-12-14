@@ -1,10 +1,7 @@
-import pprint
-import time
 from collections import defaultdict
 from copy import deepcopy
 
 grid_1 = defaultdict(str)
-sand = []
 
 sand_start = (500, 0)
 
@@ -51,15 +48,11 @@ def grain_fall(grain: tuple[int, int]) -> tuple[int, int] | None:
                 return None
 
 
-changed = True
-
-
 for part_1 in (True, False):
     leave_simulation = False
     grid = grid_1 if part_1 else grid_2
     while True:
-        # print('=======================================================')
-        grain_actual = (500, 0)
+        grain_actual = sand_start
         while True:
             if new_pos := grain_fall(grain_actual):
                 grain_actual = new_pos
@@ -70,10 +63,9 @@ for part_1 in (True, False):
             else:
                 grid[grain_actual] = 'o'
                 if not part_1:
-                    if grain_actual == (500, 0):
+                    if grain_actual == sand_start:
                         leave_simulation = True
                 break
-
         if leave_simulation:
             break
 
@@ -82,5 +74,3 @@ print('part 1:', len(fixed_1))
 
 fixed_2 = [k for k, v in grid_2.items() if v == 'o']
 print('part 2', len(fixed_2))
-
-
