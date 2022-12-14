@@ -7,7 +7,7 @@ with open('input.txt', 'r') as f:
     data_2 = [part.strip() for part in f.read().split('\n') if part.strip()] + ['[[2]]'] + ['[[6]]']
 
 
-def str2list(part: str):
+def str2list(part: str) -> list:
     return eval(part)
     """result = []
     parentesis_index = 0
