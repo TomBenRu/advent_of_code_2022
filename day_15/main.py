@@ -3,7 +3,7 @@ import time
 
 
 with open('input.txt', 'r') as f:
-    data = [re.findall(r'-*\d+', l.strip()) for l in f.readlines()]
+    data = [re.findall(r'-?\d+', l.strip()) for l in f.readlines()]
     data = [[(int(l[0]), int(l[1])), (int(l[2]), int(l[3]))] for l in data]
 
 all_sensors_and_beacons = {p for pair in data for p in pair}
@@ -45,7 +45,7 @@ for row in range(max_xy__distress_signal + 1):
             elif part_low <= x_high <= part_high:
                 if part_high - x_high:
                     new_x_coords.append((x_high, part_high))
-            elif x_high < part_low or x_low > part_high :
+            elif x_high < part_low or x_low > part_high:
                 new_x_coords.append((part_low, part_high))
             else:
                 continue
