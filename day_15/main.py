@@ -1,4 +1,5 @@
 import re
+import time
 
 
 with open('input.txt', 'r') as f:
@@ -21,7 +22,7 @@ for (s_x, s_y), (b_x, b_y) in data:
     not_poss_in_row |= p_in_manh_dist_in_row
 
 print('part 1:', len(not_poss_in_row-all_sensors_and_beacons))
-
+t0 = time.perf_counter()
 for row in range(max_xy__distress_signal + 1):
     if not row % 100_000:
         print(f'check row {row}')
@@ -49,8 +50,12 @@ for row in range(max_xy__distress_signal + 1):
             else:
                 continue
         x_coords = new_x_coords
+        if not x_coords:
+            break
 
     if x_coords:
         print('part 2:', x_coords, f'{row = }')
         print('part 2:', x_coords[0][0] * 4_000_000 + row)
         break
+
+print('Laufzeit Part 2:', time.perf_counter() - t0)
