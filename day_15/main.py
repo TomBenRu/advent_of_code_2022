@@ -1,7 +1,5 @@
 import re
-import sys
-import time
-from itertools import product
+
 
 with open('input.txt', 'r') as f:
     data = [re.findall(r'-*\d+', l.strip()) for l in f.readlines()]
