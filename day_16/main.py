@@ -3,11 +3,15 @@ import re
 from typing import Self
 
 
+FILE = 'test_input.txt'
+
+
 class Velve:
     def __init__(self, name: str, pressure_release: int, next_velves_names: list[str]):
         self.name = name
         self.pressure_release = pressure_release
         self.next_velves: list[Self] = []
+        self.remaining_time: int = 0
         self.next_velve_names = next_velves_names
 
     def __repr__(self):
@@ -29,10 +33,13 @@ def parse_data(file: str) -> list[Velve]:
     for v in result.values():
         v.next_velves = [result[n] for n in v.next_velve_names]
 
-
     return list(result.values())
 
 
-velves = parse_data('test_input.txt')
+def solve():
+    velves = parse_data(FILE)
+    pprint.pprint(velves)
 
-pprint.pprint(velves)
+
+if __name__ == '__main__':
+    solve()
