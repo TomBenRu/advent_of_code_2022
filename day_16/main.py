@@ -3,9 +3,6 @@ import re
 from typing import Self
 
 
-FILE = 'test_input.txt'
-
-
 class Velve:
     def __init__(self, name: str, pressure_release: int, next_velves_names: list[str]):
         self.name = name
@@ -36,10 +33,10 @@ def parse_data(file: str) -> list[Velve]:
     return list(result.values())
 
 
-def solve():
-    velves = parse_data(FILE)
+def solve(file: str):
+    velves = parse_data(file)
     pprint.pprint(velves)
 
 
 if __name__ == '__main__':
-    solve()
+    solve(file='test_input.txt')
