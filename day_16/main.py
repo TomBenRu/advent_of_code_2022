@@ -87,7 +87,7 @@ def find_shortest_paths(velves: list[Velve]) -> dict[str, dict[str, int]]:
 
     return path_lengths
 
-correct_test = ['AA', 'DD', 'CC', 'BB','AA', 'II', 'JJ', 'II', 'AA', 'DD', 'EE', 'FF', 'GG', 'HH', 'GG', 'FF', 'EE', 'DD', 'CC']
+correct_test = ['AA', '[DD]', 'CC', '[BB]','AA', 'II', '[JJ]', 'II', 'AA', 'DD', 'EE', 'FF', 'GG', '[HH]', 'GG', 'FF', '[EE]', 'DD', '[CC]']
 
 
 def calculate_path_pressure_release(path: dict[int, Velve], length_path: int, remaining_time: int = 30) -> int:
@@ -193,6 +193,8 @@ def find_optimal_route(velves: list[Velve], path_lengths: dict[str, dict[str, in
             if actuell_highest_result > 1640:
                 # input([v.name for v in path.values()])
                 input(list(zip(correct_test, (v.name for v in path.values()))))
+
+
 
 
 def solve(file: str):

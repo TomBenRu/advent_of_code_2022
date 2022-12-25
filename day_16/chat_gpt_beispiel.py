@@ -10,7 +10,6 @@ class Velve:
         self.name = name
         self.flow_rate = flow_rate
         self.next_velve_names = next_velve_names
-        self.closed = True
 
     def __repr__(self):
         return f'({self.flow_rate=}, {self.next_velve_names=})'
@@ -33,13 +32,12 @@ def explore_paths(current_velve: str, time_remaining: int, pressure_released: in
     # If there is enough time remaining, switch on the machine in the current room
     # and add the number of candies it produces to the total count
     # If timelimit ist reached, return True
-    if time_remaining >= 1 and velves[current_velve].closed:
-        velves[current_velve].closed = False
+    if time_remaining >= 1 and velves[current_velve].name not in path[:-1] and velves[current_velve].flow_rate:
         rate = velves[current_velve].flow_rate
         pressure_released += time_remaining * rate
     if time_remaining <= 1:
         # Timelimit ist reached
-        return True
+        return pressure_released
 
     # Update the maximum number of candies produced and the path taken to reach it
     # if the current path produces more candies than the maximum found so far
@@ -59,9 +57,8 @@ def explore_paths(current_velve: str, time_remaining: int, pressure_released: in
             open_paths -= 1
     if not open_paths:
         if len(path) <= 10:
-            print('time limit reached', path)
-            print(f'{max_pressure_released = }, {pressure_released = }')
-        return True
+            print('time limit reached', path, f'{max_pressure_released = }', f'{time_limit_reached = }')
+        return time_limit_reached
 
 
 # Data structure to represent the velves and connections between them
