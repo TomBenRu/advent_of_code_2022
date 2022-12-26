@@ -11,17 +11,16 @@ def get_result_of_operation(monkey_1: int, operator: str, monkey_2: int):
     return eval(f'{monkey_1} {operator} {monkey_2}')
 
 
-def solve(monkeys: dict[str, str | int], root: str) -> int:
+def solve(monkeys: dict[str, str | int], root: str) -> tuple[int, int, int]:
     if type(monkeys[root]) == int:
-        return monkeys[root]
+        return monkeys[root], 0, 0
 
     monkey_1, operator, monkey_2 = monkeys[root].split()
 
-    num_1, num_2 = solve(monkeys, monkey_1), solve(monkeys, monkey_2)
-    result = get_result_of_operation(num_1, operator, num_2)
-    if root == 'root':
-        print(num_1, num_2, result)
-    return result
+    (num_1, _, _), (num_2, _, _) = solve(monkeys, monkey_1), solve(monkeys, monkey_2)
+    result: int = get_result_of_operation(num_1, operator, num_2)
+
+    return result, num_1, num_2
 
 
 if __name__ == '__main__':
@@ -37,12 +36,12 @@ if __name__ == '__main__':
     original = data['root'].split()
     data['root'] = original[0] + ' == ' + original[2]
 
-    zahl = 3_403_989_691_757
-    print(zahl)
-    for z in range(zahl, zahl+1):
-        data['humn'] = z
-        res = solve(data, 'root')
-        print(f'{res=}')
-        if res is True:
-            print(f'Your number is: {z}')
-            break
+    '''durch manuelle schrittweise Annäherung gefunden'''
+    guess = 3_403_989_691_757
+    print(guess)
+
+    data['humn'] = guess
+    res, num_1, num_2 = solve(data, 'root')
+
+    print(res, num_1, num_2)
+
