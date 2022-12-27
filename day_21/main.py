@@ -29,8 +29,8 @@ if __name__ == '__main__':
 
     monkeys = deepcopy(data)
 
-    result = solve(monkeys, 'root')
-    print(result)
+    result, _, _ = solve(monkeys, 'root')
+    print('part 1:', int(result))
 
     # part 2
     original = data['root'].split()
@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     '''durch manuelle schrittweise Annäherung gefunden'''
     guess = 3_403_989_691_757
-    print(guess)
+    print('part 2:', guess)
 
     data['humn'] = guess
     res, num_1, num_2 = solve(data, 'root')
