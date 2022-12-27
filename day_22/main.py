@@ -36,6 +36,55 @@ def read_input(file: str):
         return dict_mm, outer_tiles, notes
 
 
+def make_cube_connections_1(outer_tiles: dict[str, dict[int, dict[str, int]]]) -> dict[tuple[tuple[int, int], str]]:
+    side_len = 4
+    cube_connections: dict[tuple[tuple[int, int], str], tuple[tuple[int, int], str]] = {}
+    for row, out_p_r in outer_tiles['rows'].items():
+        con_tile_r_l = ((row, out_p_r['left']), 'left')
+        con_tile_r_r = ((row, out_p_r['right']), 'right')
+        if row <= side_len:
+            for col, out_p_c in outer_tiles['columns'].items():
+                if col == side_len + row:
+                    con_tile_c_1 = ((out_p_c['top'], col), 'top')
+                    cube_connections[con_tile_r_l] = con_tile_c_1
+                    cube_connections[con_tile_c_1] = con_tile_r_l
+            for row_2, out_p_r_2 in outer_tiles['rows'].items():
+                if row_2 == 3 * side_len + 1 - row:
+                    con_tile_r_2 = ((row_2, out_p_r_2['right']), 'right')
+                    cube_connections[con_tile_r_r] = con_tile_r_2
+                    cube_connections[con_tile_r_2] = con_tile_r_r
+        if side_len < row <= 2 * side_len:
+            for col, out_p_c in outer_tiles['columns'].items():
+                if col == 4 * side_len + 1 - (row - side_len):
+                    con_tile_c_1 = ((out_p_c['bottom'], col), 'bottom')
+                    cube_connections[con_tile_r_l] = con_tile_c_1
+                    cube_connections[con_tile_c_1] = con_tile_r_l
+
+                    con_tile_c_2 = ((out_p_c['top'], col), 'top')
+                    cube_connections[con_tile_r_r] = con_tile_c_2
+                    cube_connections[con_tile_c_2] = con_tile_r_r
+        if 2 * side_len < row:
+            for col, out_p_c in outer_tiles['columns'].items():
+                if col == 2 * side_len + 1 - (row - 2 * side_len):
+                    con_tile_c_1 = ((out_p_c['bottom'], col), 'bottom')
+                    cube_connections[con_tile_r_l] = con_tile_c_1
+                    cube_connections[con_tile_c_1] = con_tile_r_l
+    for col, out_p_c in outer_tiles['columns'].items():
+        if col <= side_len:
+            con_tile_c_t = ((out_p_c['top'], col), 'top')
+            con_tile_c_b = ((out_p_c['bottom'], col), 'bottom')
+            for col_2, out_p_c_2 in outer_tiles['columns'].items():
+                if col_2 == 3 * side_len + 1 - col:
+                    con_tile_c_1_b = ((out_p_c_2['bottom'], col_2), 'bottom')
+                    con_tile_c_1_t = ((out_p_c_2['top'], col_2), 'top')
+                    cube_connections[con_tile_c_t] = con_tile_c_1_t
+                    cube_connections[con_tile_c_1_t] = con_tile_c_t
+                    cube_connections[con_tile_c_b] = con_tile_c_1_b
+                    cube_connections[con_tile_c_1_b] = con_tile_c_b
+
+    return cube_connections
+
+
 def change_direction(orig_dir: tuple[int, int], param: str) -> tuple[int, int]:
     """Tuple bezeichn. Richtung: 1. Wert vertikal (positiv: nach unten), 2. Wert horiz. (posit.: noach rechts)
        (0, 1) -> R -> (1, 0) -> R -> (0, -1) -> R -> (-1, 0) -> R -> (0, 1)
@@ -93,8 +142,14 @@ def solve(monkey_map: dict[tuple[int, int], str], outer_tiles: dict, notes: list
 
 if __name__ == '__main__':
     monkey_map, outer_tiles, notes = read_input('test_input.txt')
-    print(monkey_map)
+
+    print('part 1:', solve(monkey_map, outer_tiles, notes))
+
     print(outer_tiles)
-    print(notes)
-    print(solve(monkey_map, outer_tiles, notes))
+    cube_side_len = min(o['right'] - o['left'] + 1 for o in outer_tiles['rows'].values())
+    print(cube_side_len)
+    cube_connections = make_cube_connections_1(outer_tiles)
+    print(f'{cube_connections = }')
+    print(len(cube_connections))
+
 
